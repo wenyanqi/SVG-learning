@@ -1,0 +1,15 @@
+<svg version="1.1"
+	baseProfile="full"
+	width="300" height="600"
+	xmlns="http://www.w3.org/2000/svg">
+	<line x1="40" x2="120" y1="20" y2="20" stroke="black" stroke-width="20" stroke-linecap="butt" />
+	<line x1="40" x2="120" y1="60" y2="60" stroke="black" stroke-width="20" stroke-linecap="square" />
+	<line x1="40" x2="120" y1="100" y2="100" stroke="black" stroke-width="20" stroke-linecap="round" />
+
+	<polyline points="40 260 80 220 120 260" stroke="black" stroke-width="20" stroke-linecap="butt" fill="none" stroke-linejoin="miter" />
+	<polyline points="40 340 80 300 120 340" stroke="black" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+	<polyline points="40 420 80 380 120 420" stroke="black" stroke-width="20" fill="none" stroke-linecap="square" stroke-linejoin="bevel"/>
+
+	<path d="M 10 500 Q 50 400 100 500 T 190 500" stroke="black" stroke-linecap="round" stroke-dasharray="5,15,5" fill="none" />
+	<path d="M 10 500 L 190 500" stroke="red" stroke-linecap="round" stroke-width="1" stroke-dasharray="5,5" fill="none"/>
+</svg>
