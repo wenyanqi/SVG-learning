@@ -116,7 +116,58 @@
 2015-12-22
 
 ## 渐变
+有两种类型的渐变：线性渐变和径向渐变。必须给渐变内容指定一个id属性，否则文档内的其他元素就不能引用它。为了使渐变能被重复使用，渐变内容需要定义在**&lt;defs>**标签内部，而不是定义在形状上面。
 
+### 线性渐变
+线性渐变沿着直线改变颜色，要插入一个线性渐变，你需要在SVG文件的defs元素内部，创建一个&lt;linearGradient>节点。
+
+基本示例：
+```xml
+<svg version="1.1"
+    width="120"
+    height="240"
+    xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="Gradient1">
+            <stop class="stop1" offset="0%"/>
+            <stop class="stop2" offset="50%" />
+            <stop class="stop3" offset="100%" />
+        </linearGradient>
+        <linearGradient id="Gradient2" x1="0" x2="0" y1="0" y2="1" >
+            <stop offset="0%" stop-color="red" />
+            <stop offset="50%" stop-color="black" stop-opacity="0" />
+            <stop offset="100%" stop-color="blue" />
+        </linearGradient>
+        <style type="text/css">
+            <![CDATA[
+            #rect1 {fill: url(#Gradient1);}
+            .stop1 {stop-color:red;}
+            .stop2 {stop-color:black;stop-opacity:0;}
+            .stop3{stop-color:blue;}
+            ]]>
+        </style>
+    </defs>
+
+    <rect id="rect1" x="10" y="10" rx="15" ry="15" width="100" height="100" />
+    <rect x="10" y="120" rx="15" ry="15" width="100" height="100" fill="url(#Gradient2)" />
+</svg>
+```
+显示效果：
+![demo3-1](img/demo3-1.png)
+
+这些结点通过指定位置的offset（偏移）属性和stop-color（颜色中值）属性来说明在渐变的特定位置上应该是什么颜色；可以直接指定这两个属性值，也可以通过CSS来指定他们的值，该例子中混合使用了这两种方法。例如：该示例中指明了渐变开始颜色为红色，到中间位置时变成半透明的黑色，最后变成蓝色。虽然你可以根据需求按照自己的喜好插入很多中间颜色，但是偏移量应该始终从0%开始（或者0也可以，百分号可以扔掉），到100%（或1）结束。如果stop设置的位置有重合，将使用XML树中较晚设置的值。而且，类似于填充和描边，你也可以指定属性stop-opacity来设置某个位置的半透明度
+使用渐变时，我们需要在一个对象的属性fill或属性stroke中引用它，这跟你在CSS中使用url引用元素的方法一样。在本例中，url只是一个渐变的引用，我们已经给这个渐变一个ID——“Gradient”。要想附加它，将属性fill设置为url(#Gradient)即可。现在对象就变成多色的了，也可以用同样的方式处理stroke。
+&lt;linearGradient>元素还需要一些其他的属性值，它们指定了渐变的大小和出现范围。渐变的方向可以通过两个点来控制，它们分别是属性x1、x2、y1和y2，这些属性定义了渐变路线走向。渐变色默认是水平方向的，但是通过修改这些属性，就可以旋转该方向。下例中的Gradient2创建了一个垂直渐变。
+
+### 径向渐变
+径向渐变与线性渐变相似，只是它是从一个点开始发散绘制渐变。创建径向渐变需要在文档的defs中添加一个&lt;radialGradient>元素
+
+示例：
+
+
+源代码：[demo3.svg](demo/demo3.svg)
+
+2015-12-23
 
 
 
