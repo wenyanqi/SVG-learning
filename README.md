@@ -163,11 +163,43 @@
 径向渐变与线性渐变相似，只是它是从一个点开始发散绘制渐变。创建径向渐变需要在文档的defs中添加一个&lt;radialGradient>元素
 
 示例：
+```xml
+<radialGradient id="RadialGradient1">
+    <stop offset="0%" stop-color="red" />
+    <stop offset="100%" stop-color="blue" />
+</radialGradient>
+<radialGradient id="RadialGradient2" cx="0.25" cy="0.25" r="0.25">
+    <stop offset="0%" stop-color="red" />
+    <stop offset="100%" stop-color="blue" />
+</radialGradient>
+<rect x="10" y="230" rx="15" ry="15" width="100" height="100" fill="url(#RadialGradient1)" />
+<rect x="10" y="370" rx="15" ry="15" width="100" height="100" fill="url(#RadialGradient2)" />
+```
+显示效果：
 
+![demo3-2](img/demo3-2.png)
+2015-12-23
+径向渐变也是通过两个点来定义其边缘位置，两点中的第一个点定义了渐变结束所围绕的圆环，它需要一个中心点，由cx和cy属性及半径r来定义，通过设置这些点我们可以移动渐变范围并改变它的大小，如上例的第二个<rect>所展示的。
+
+第二个点被称为焦点，由fx和fy属性定义。第一个点描述了渐变边缘位置，焦点则描述了渐变的中心，如下例.
+```xml
+<radialGradient id="RadialGradient3" cx="0.5" cy="0.5" r="0.5" fx="0.25" fy="0.25">
+    <stop offset="0%" stop-color="red" />
+    <stop offset="100%" stop-color="blue" />
+</radialGradient>
+<rect x="10" y="450" rx="15" ry="15" width="100" height="100" fill="url(#RadialGradient3)" />
+<circle cx="60" cy="500" r="50" fill="transparent" stroke="white"  stroke-width="2"/>
+<circle cx="35" cy="475" r="2" fill="white" stroke="white" />
+<circle cx="60" cy="500" r="2" fill="white" stroke="white" />
+<text x="38" y="480" fill="white"  font-family="sans-serif" font-size="10pt">(fx,fy)</text>
+<text x="63" y="503" fill="white"  font-family="sans-serif" font-size="10pt">(cx,cy)</text>
+```
+显示效果：
+
+![demo3-3](img/demo3-3.png)
 
 源代码：[demo3.svg](demo/demo3.svg)
-
-2015-12-23
+2015-12-24
 
 
 
