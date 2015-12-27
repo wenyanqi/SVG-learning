@@ -1,0 +1,28 @@
+<svg version="1.1"
+	xmlns="http://www.w3.org/2000/svg"
+	width="400"
+	height="200"
+	>
+	<text x="10" y="10" text-anchor="start" >Hello world</text>
+	<text x="10" y="30" text-anchor="middle" >Hello world</text>
+	<text x="10" y="50" text-anchor="end" >Hello world</text>
+	<text x="10" y="70" text-anchor="inherit" >Hello world</text>
+	<text x="10" y="70" text-anchor="inherit" fill="red" stroke="yellow" stroke-width="1" font-weight="bold" >Hello world</text>
+
+
+	<text x="10" y="90">
+    this is very
+        <tspan font-weight="bold" fill="red" >important</tspan> thing
+    </text>
+
+    <text x="10" y="110" textLength="100">this is as</text>
+    <text x="10" y="130" textLength="100">this aas</text>
+
+
+    <path id="my_path" d="M 20,120 C 40,140 80,140 100, 120" />
+    <text>
+    	<textPath xlink:href="#my_path">This text follows a curve.</textPath>
+    </text>
+
+
+</svg> 

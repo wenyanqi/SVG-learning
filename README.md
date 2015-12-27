@@ -201,5 +201,119 @@
 源代码：[demo3.svg](demo/demo3.svg)
 2015-12-24
 
+## 图案
+图案用patterns标签，需要放在SVG文档的defs内部
+```xml
+<svg  version="1.1"
+    width="200"
+    height="200"
+    xmlns="http://www.w3.org/2000/svg">
+<defs>
+    <linearGradient id="Gradient1">
+      <stop offset="5%" stop-color="white"/>
+      <stop offset="95%" stop-color="blue"/>
+    </linearGradient>
+    <linearGradient id="Gradient2" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="5%" stop-color="red"/>
+      <stop offset="95%" stop-color="orange"/>
+    </linearGradient>
 
+    <pattern id="Pattern" x="0" y="0" width=".25" height=".25">
+      <rect x="0" y="0" width="50" height="50" fill="skyblue" />
+      <rect x="0" y="0" width="25" height="25" fill="url(#Gradient2)"/>
+      <circle cx="25" cy="25" r="20" fill="url(#Gradient1)" fill-opacity="0.5"/>
+    </pattern>
+</defs>
 
+<rect fill="url(#Pattern)" stroke="black" x="0" y="0" width="200" height="200"/>
+</svg>
+```
+显示效果：
+
+![demo4-1](img/demo4-1.png)
+
+源代码: [demo4.svg](demo/demo4.svg)
+
+在pattern元素内部可以包含任何之前包含过的其他基本形状，并且每个形状都可以使用之前学习过的任何样式样式化。pattern定义了一个单元系统以及他们的大小。更高级的属性后期需要的时候再查看，在这里就不写了。
+
+## Texts
+在SVG中有两种截然不同的文本模式。一种是写在图像中的文本，另一种是SVG字体。关于后者在后面进行，主要集中前者：写在图像中的文本。
+### 基础
+在一个SVG文档中，&lt;text>元素内部可以放任何的文字。
+    <text x="10" y="10">Hello world!</text>
+> * 属性x和属性y决定文本在视口显示的位置
+> * 属性text-anchor，可可以有这些值：start,middle,end或inherit,允许决定从这一点开始的文本流的方向
+> * 属性fill可以给文本填充颜色，属性stroke可以给文本描边
+> * 也可以引用渐变或图案
+### 设置字体属性
+SVG提供的属性和css类似，提供的属性有：font-family、font-style、font-weight、font-variant、font-stretch、font-size、font-size-adjust、kerning、letter-spacing、word-spacing和text-decoration。
+### 其它文本相关的元素
+#### tspan
+该元素用来标记大块文本的子部分，它必须是一个text元素或别的tspan元素的子元素。一个典型的用法是把句子中的一个词变成粗体红色。
+```xml
+<text>
+this is very
+    <tspan font-weight="bold" fill="red" >important</tspan>
+thing
+</text>
+```
+显示效果：
+
+![demo5-1.png](img/demo5-1.png)
+
+tspan元素由以下自定义属性：
+> * x 为容器设置一个新绝对x坐标。它覆盖默认的当前的文本位置。这个属性可以包含一个数列，它们将一个一个应用到每一个字符上，对应的还有y属性。
+> * dx 从当前位置，用一个水平偏移开始绘制文本，对应的还有dy属性
+> * rotate 把所有的字符旋转一个角度。如果是一个数列，则使每个字符分别旋转，剩下的字符根据最后一个值旋转。
+> * textLength 给出字符串的计算长度。它意味着如果它自己的度量文字和长度不满足这个提供的值，则永允许渲染引擎精细调整字型的位置。
+    <text x="10" y="110" textLength="100">this is as</text>
+    <text x="10" y="130" textLength="100">this aas</text>
+显示效果：
+
+![demo5-2](img/demo5-2.png)
+
+#### tref 
+该元素允许引用已经定义的文本，高效地把它复制到当前位置。你可以使用xlink:href属性，把它指向一个元素，取得其文本内容。你可以独立于源样式化它，修改它的外观。
+```xml
+<text id="example">This is an example text.</text>
+<text>
+    <tref xlink:href="#example" />
+</text>
+```
+
+#### textPath 
+该元素利用xlink:href属性取得一个任意路径，把字符对齐到路径，于是字体会环绕路径、顺着路径走。(chrome浏览器不能识别xlink:href)
+```xml
+<path id="my_path" d="M 20,20 C 40,40 80,40 100,20" />
+<text>
+  <textPath xlink:href="#my_path">This text follows a curve.</textPath>
+</text>
+```
+源代码: [demo5.svg](demo/demo5.svg)
+
+## 基本变形
+现在我们准备好开始扭曲我们美丽的图像了。但是首先，让我们正式地介绍<g>元素。利用这个助手，你可以把属性赋给一整个元素集合。实际上，这是它唯一的目的。一个示例：
+```xml
+<g>
+    <rect x="0" y="0" width="10" height="10" />
+    <rect x="20" y="0" width="10" height="10" />
+</g>
+```
+输出两个黑色矩形
+所有接下来的变形都会用一个元素的transform属性总结。变形可以连缀，只要把它们连接起来就行，用空格隔开
+
+### 平移
+能把元素移动一段距离，甚至你可以根据相应的属性定位它。translate()变形方法专门效力于这个目的。
+```xml
+<rect x="0" y="0" width="10" height="10" transform="translate(30,40)" />
+```
+该示例将呈现一个矩形，移到点(30,40)，而不是出现在点(0,0)。
+
+如果没有指定第二个值，它默认被赋值0.
+### 旋转
+旋转一个元素是相当常见的任务。使用rotate()变形就可以了：
+```xml
+<rect x="0" y="0" width="10" height="10" transform="rotate(45)" />
+```
+
+2015-12-26
