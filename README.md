@@ -317,3 +317,78 @@ tspan元素由以下自定义属性：
 ```
 
 2015-12-26
+### 斜切
+利用一个矩形制作一个斜菱形。可用skewX()变形和skewY()变形。每个需要一角度以确定元素斜切到多远。
+###  缩放
+scale()变形改变了元素的尺寸。它需要两个数字，作为比率计算如何缩放。0.5表示收缩到50%。如果第二个数字被忽略了，它默认等于第一个值。
+### 用matrix()实现复杂变形
+所有上面的变形可以表达为一个2x3的变形矩阵。组合一些变形，可以直接用matrix(a, b, c, d, e, f)变形设置结果矩阵，利用下面的矩阵，它把来自上一个坐标系统的坐标映射到新的坐标系统：
+### 坐标系统上的效果
+如果使用了变形，你会在元素内部建立了一个新的坐标系统，应用了这些变形，你为该元素和它的子元素指定的单位可能不是1:1像素映射。但是依然会根据这个变形进行歪曲、斜切、转换、缩放操作。
+### SVG嵌在SVG内部
+比之HTML，SVG允许你无缝嵌入别的svg元素。因此你可以利用内部svg元素的属性viewBox、属性width和属性height简单创建一个新的坐标系统
+
+源代码：[demo6.svg](demo6.svg)
+
+## 剪切和遮罩
+> * Clipping用来移除在别处定义的元素的部分内容。在这里，任何半透明效果都是不行的。它只能要么显示要么不显示。
+> * Masking允许使用透明度和灰度值遮罩计算得的软边缘。
+
+### 创建剪切
+我们在一个圆形的基础上创建半圆：
+```xml
+<svg version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    >
+    <defs>
+        <clipPath id="cut-off-bottom">
+            <rect x="0" y="0" width="200" height="100" />
+        </clipPath>
+
+    </defs>
+    <circle cx="100" cy="100" r="100" clip-path="url(#cut-off-bottom)" />
+</svg>
+```
+显示效果：
+
+![demo7-1](img/demo7-1.png)
+
+在(100,100)创建一个圆形，半径是100。属性clip-path引用了一个带单个rect元素的<clipPath>元素。它内部的这个矩形将把画布的上半部分涂黑。注意，clipPath元素经常放在一个defs元素内。
+
+然而，该rect不会被绘制。它的象素数据将用来确定：** 圆形的哪些像素需要最终呈现出来**。因为矩形只覆盖了圆形的上半部分，所以下半部分将消失了：
+
+### 遮罩
+遮罩的效果最令人印象深刻的是表现为一个渐变。如果你想要让一个元素淡出，你可以利用遮罩效果实现这一点。
+```xml
+<svg version="1.1"
+    xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="Gradient">
+            <stop offset="0" stop-color="white" stop-opacity="0" />
+            <stop offset="1" stop-color="white" stop-opacity="1" />
+        </linearGradient>
+        <mask id="Mask">
+            <rect x="0" y="100" width="200" height="200" fill="url(#Gradient)" />
+        </mask>
+    </defs>
+    <rect x="0" y="100" width="200" height="200" fill="green" />
+    <rect x="0" y="100" width="200" height="200" fill="red" mask="url(#Mask)" />
+</svg>
+```
+显示效果：
+
+![demo7-2](img/demo7-2.png)
+
+### 用opacity定义透明度
+有一个简单方法可以用来为整个元素设置透明度。它就是opacity属性
+```xml
+<rect x="0" y="0" width="100" height="100" opacity=".5" />
+```
+
+还有两个分开的属性fill-opacity和stroke-opacity，分别用来控制填充和描边的不透明度。注意，描边将绘制在填充的上面。因此，如果你在元素上设置了一个描边透明度，它同时还有填充，则填充将在描边上透过一半，另一半背景也将出现：
+```xml
+<rect x="0" y="150" width="200" height="200" fill="blue" />
+<circle cx="100" cy="450" r="50" stroke="yellow" stroke-width="40" stroke-opacity=".5" fill="red" />
+```
+
+2015-12-27
