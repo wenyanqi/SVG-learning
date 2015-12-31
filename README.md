@@ -392,3 +392,49 @@ scale()变形改变了元素的尺寸。它需要两个数字，作为比率计�
 ```
 
 2015-12-27
+## 其他SVG内容
+
+### 光栅图像
+很像在HTML中的img元素，SVG有一个image元素，用于同样的目的。你可以利用它嵌入任意光栅（以及矢量）图像。它的规格要求应用至少支持PNG、JPG和SVG格式文件。
+
+嵌入的图像变成一个普通的SVG元素。这意味着，你可以在其内容上用剪切、遮罩、滤镜、旋转以及其它SVG工具：
+```xml
+<svg version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="200"
+    height="200">
+    <image x="90" y="-65" width="128" height="146" transform="rotate(45)" xlink:href="https://developer.mozilla.org/static/img/mdn-logo.png" />
+</svg>
+```
+其中image的图片的大小会根据image的width和height进行缩放。
+显示效果：
+
+![demo8-1.png](img/demo8-1.png)
+
+当宽度变为68时，显示效果如下：
+
+![demo8-2.png](img/demo8-2.png)
+
+还有一些重要的事情需要注意：
+> * 如果你没有设置x属性或y属性，它们自动被设置为0。
+> * 如果你没有设置height属性或width属性，它们自动被设置为0。
+> * 如果width属性或height等于0，将不会呈现这个图像。
+
+源代码：[demo/demo8.svg](demo/demo8.svg)
+
+### 嵌入任何xml
+因为SVG是一个XML应用，所以你总是可以在SVG文档的任何位置嵌入任意XML。但是你没有必要定义周围的SVG需要怎样反作用于这个内容。实际上，在一个遵从的浏览者中，根本没有反作用的方法，数据将简单被忽略。因此特地在SVG中添加了<foreignObject> 元素。它的唯一的目的是作为其它标记的容器和SVG样式属性的载体（更突出的width和height用来定义该对象占用的空间。）。
+
+foreignObject元素是一个好办法，用来在SVG中嵌入XHTML。如果你有更长的文本，该HTML布局比SVG text元素更适合。另一个经常被引用的用例是用MathML写的方程式。对于SVG的科学应用，它是连接两个世界的一个很好的办法。
+因为foreignObject是一个SVG元素，所以你可以像用图像那样，使用任何SVG的精华，它将被应用到它的内容。
+
+## SVG字体
+当规定SVG时，在浏览器支持web字体并不流行。因为访问正确的字体文件对于正确呈现字体是有确定性的，SVG中添加了一个字体描述技术，以提供这个能力。它并不是为了和别的格式比如说PostScript或OTF兼容，而是为了将字形信息嵌入SVG呈现的一个简单的方法。
+> **SVG字体当前只在Safari和Android浏览器中受支持。**
+Internet Explorer还没有考虑实现它，Chrome 38（和Opera25）移除了这个功能，Firefox已经无限期推迟实施它以专心实现WOFF。别的工具比如说Adobe SVG Viewer插件、Batik和部分Inkscape支持SVG字体嵌入。
+### 定义一个字体
+
+在SVG中嵌入一个字体，有一些原料要求。让我们用一个示例演示它（来自[规范文档](http://www.w3.org/TR/SVG/fonts.html#FontElement)的示例），并详细解释。
+
+2015-12-31
