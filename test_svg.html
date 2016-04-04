@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>svg</title>
+	<style type="text/css">
+		svg{
+			background-color: #e1e8f0;	
+		}
+		.line_large {
+			stroke-width: 50;
+		}
+		.line_medium {
+			stroke-width: 30;
+		}
+		.line_small {
+			stroke-width: 10;
+		}
+		.width_large {
+			width: 50px;
+		}
+		.width_medium {
+			width: 30px;
+		}
+		.width_small {
+			width: 15px;
+		}
+
+		.color1 {
+			fill: #6ed3cf;
+		}
+		.color2 {
+			fill: #9068be;
+		}
+		.color3 {
+			fill: #e62739;
+		}
+		.color1 {
+			fill: #f79f79;
+		}
+		.color2 {
+			fill: #f7d08a;
+		}
+		.color3 {
+			fill: #e3f;
+		}
+		
+	</style>
+</head>
+<body>
+	
+	<svg version="1.1"
+		 baseProfile="full"
+		 width="900"
+		 height="600" id="svg1">		
+		
+	</svg>
+
+	<svg version="1.1"
+		 baseProfile="full"
+		 width="900"
+		 height="600">		
+		 <rect x="80" y="80" height="420" class="width_medium color1 " />
+		 <rect x="110" y="380" height="120"  class="width_medium color2" />
+		 <rect x="140" y="180" height="320" class="width_medium color3" />
+	</svg>
+	<svg version="1.1"
+		 baseProfile="full"
+		 width="900"
+		 height="600">		
+		 <rect x="80" y="80" height="420" class="width_large color1" />
+		 <rect x="130" y="380" height="120"  class="width_large color2" />
+		 <rect x="180" y="180" height="320" class="width_large color3" />
+	</svg>
+
+	<script type="text/javascript">
+	var xmlns = "http://www.w3.org/2000/svg";
+	window.onload = function (){
+		var data = Array(30);
+
+		for(var i=0;i<30;i++) {
+			data[i] = parseInt(Math.random()*30);
+		}
+
+		var svg = document.getElementById("svg1");
+		for(var i=0;i<30;i++) {
+			var rect = document.createElementNS(xmlns, "rect");
+			rect.setAttribute("x", 80+15*i);
+			rect.setAttribute("y", 500-15*data[i]);
+			rect.setAttribute("height", 15*data[i]);
+			
+
+			switch(i%3) {
+			case 0: rect.setAttribute("class", "width_small color1"); 
+					break;
+			case 1: rect.setAttribute("class", "width_small color2"); 
+					break;
+			case 2: rect.setAttribute("class", "width_small color3"); 
+					break;
+			}
+			svg.appendChild(rect);
+		}
+	}
+	
+	</script>
+</body>
+</html>
